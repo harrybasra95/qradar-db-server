@@ -1,0 +1,41 @@
+Arguments: 
+  /Users/harnarinder/.nvm/versions/node/v18.16.0/bin/node /Users/harnarinder/.nvm/versions/node/v18.16.0/bin/yarn add @babel/cli, @babel/core and @babel/preset-env
+
+PATH: 
+  /Users/harnarinder/.nvm/versions/node/v18.16.0/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/harnarinder/Library/pnpm:/Users/harnarinder/.nvm/versions/node/v18.16.0/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/Users/harnarinder/.cargo/bin:/Users/harnarinder/bin:/Users/harnarinder/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@babel%2fcli,: Not found
+      at params.callback [as _callback] (/Users/harnarinder/.nvm/versions/node/v18.16.0/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at self.callback (/Users/harnarinder/.nvm/versions/node/v18.16.0/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (node:events:513:28)
+      at Request.<anonymous> (/Users/harnarinder/.nvm/versions/node/v18.16.0/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (node:events:513:28)
+      at IncomingMessage.<anonymous> (/Users/harnarinder/.nvm/versions/node/v18.16.0/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:627:28)
+      at IncomingMessage.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "QRadar",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

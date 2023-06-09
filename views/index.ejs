@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta
+               name="viewport"
+               content="width=device-width, initial-scale=1.0"
+          />
+          <title>Bucket List</title>
+          <style>
+               body {
+                    font-family: Arial, sans-serif;
+               }
+
+               h1 {
+                    text-align: center;
+                    margin-top: 20px;
+               }
+
+               table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+               }
+
+               th,
+               td {
+                    padding: 10px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+               }
+
+               th {
+                    background-color: #f2f2f2;
+               }
+
+               button {
+                    padding: 5px 10px;
+               }
+               button {
+                    padding: 10px 20px;
+                    background-color: #4caf50;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+               }
+
+               button:hover {
+                    background-color: #45a049;
+               }
+
+               button + button {
+                    margin-left: 10px;
+               }
+
+               button.delete {
+                    background-color: #f44336;
+               }
+
+               button.delete:hover {
+                    background-color: #d32f2f;
+               }
+
+               button.create {
+                    padding: 10px 20px;
+                    background-color: #2196f3;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+               }
+
+               button.create:hover {
+                    background-color: #1976d2;
+               }
+
+               /* Modal Styles */
+               .modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 1;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgba(0, 0, 0, 0.4);
+               }
+
+               .modal-content {
+                    position: relative;
+                    background-color: #fefefe;
+                    margin: 15% auto;
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 50%;
+                    max-width: 500px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                    border-radius: 4px;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+               }
+
+               .modal-content input {
+                    margin-bottom: 10px;
+                    padding: 10px;
+               }
+
+               .close {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                    cursor: pointer;
+               }
+
+               .close:hover,
+               .close:focus {
+                    color: #000;
+                    text-decoration: none;
+                    cursor: pointer;
+               }
+          </style>
+     </head>
+     <body>
+          <h1>Bucket List</h1>
+          <button class="create" onclick="openModal()">Create New</button>
+          <table>
+               <thead>
+                    <tr>
+                         <th>ID</th>
+                         <th>Bucket Name</th>
+                         <th>Token</th>
+                         <th>Edit</th>
+                         <th>Delete</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <% buckets.forEach(bucket => { %>
+                    <tr>
+                         <td><%= bucket.id %></td>
+                         <td><%= bucket.bucketName %></td>
+                         <td><%= bucket.token %></td>
+                         <td>
+                              <button
+                                   onClick="openModal(<%=JSON.stringify(bucket)%>)"
+                              >
+                                   Edit
+                              </button>
+                         </td>
+                         <td>
+                              <button
+                                   onClick="deleteBucket(<%=JSON.stringify(bucket.id)%>)"
+                              >
+                                   Delete
+                              </button>
+                         </td>
+                    </tr>
+                    <% }) %>
+               </tbody>
+          </table>
+          <div id="myModal" class="modal">
+               <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>Create New Bucket</h2>
+                    <input
+                         type="text"
+                         id="bucketName"
+                         placeholder="Bucket Name"
+                    />
+                    <input type="text" id="bucketToken" placeholder="Token" />
+                    <button id="modelButton" onclick="createBucket()">
+                         Create
+                    </button>
+               </div>
+          </div>
+          <script>
+               // Get the modal
+               const modal = document.getElementById('myModal');
+               const bucketNameInput = document.getElementById('bucketName');
+               const bucketTokenInput = document.getElementById('bucketToken');
+               const modelButton = document.getElementById('modelButton');
+               let editId;
+               // Function to open the modal
+               function openModal(data) {
+                    if (data) {
+                         bucketNameInput.value = data.bucketName;
+                         bucketTokenInput.value = data.token;
+                         modelButton.innerText = 'Update';
+                         editId = data.id;
+                    } else {
+                         bucketNameInput.value = '';
+                         bucketTokenInput.value = '';
+                         modelButton.innerText = 'Create';
+                         editId = null;
+                    }
+                    modal.style.display = 'block';
+               }
+
+               // Function to close the modal
+               function closeModal() {
+                    modal.style.display = 'none';
+               }
+
+               function deleteBucket(id) {
+                    fetch('/buckets/' + id, {
+                         method: 'DELETE',
+                         headers: {
+                              'Content-Type':
+                                   'application/x-www-form-urlencoded',
+                         },
+                    })
+                         .then((response) => location.reload())
+                         .catch((error) => {
+                              console.error('Error:', error);
+                              // Handle any errors that occurred during the request
+                         });
+               }
+
+               // Function to handle creating a new bucket
+               function createBucket() {
+                    const bucketName = bucketNameInput.value;
+                    const token = bucketTokenInput.value;
+
+                    fetch(editId ? `/buckets/${editId}` : '/buckets', {
+                         method: editId ? 'PUT' : 'POST',
+                         headers: {
+                              'Content-Type':
+                                   'application/x-www-form-urlencoded',
+                         },
+                         body: `bucketName=${encodeURIComponent(
+                              bucketName
+                         )}&token=${encodeURIComponent(token)}`,
+                    })
+                         .then((response) => location.reload())
+                         .catch((error) => {
+                              console.error('Error:', error);
+                              // Handle any errors that occurred during the request
+                         });
+               }
+          </script>
+     </body>
+</html>
